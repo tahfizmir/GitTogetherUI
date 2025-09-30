@@ -1,20 +1,31 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [emailId, setEmailId] = useState("elon@rocky.co"); // initially put for testing
   const [password, setPassword] = useState("Elon@1234");
+  const dispatch = useDispatch();
+  const navigate=useNavigate();
 
-  const handleLogin=async()=>{
-    try{
-      const res=await axios.post("http://localhost:3000/login",{
-        emailId,password
-      },{withCredentials:true});   // to set cookies etc
+  const handleLogin = async () => {
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/login",
+        {
+          emailId,
+          password,
+        },
+        { withCredentials: true }
+      ); // to set cookies etc
       console.log(res);
-    }catch(err){
+      dispatch(addUser(res.data));
+      return navigate("/")
+    } catch (err) {
       console.log(err.message);
     }
-  }
+  };
   return (
     <div className="flex justify-center justify-evenly">
       <div className="card w-96 bg-base-100 card-l shadow-sm my-15 border-1 shadow-2xl ">
@@ -45,7 +56,9 @@ const Login = () => {
             </fieldset>
           </div>
           <div className="justify-end card-actions">
-            <button className="btn btn-primary mx-4 my-2" onClick={handleLogin}>LOGIN</button>
+            <button className="btn btn-primary mx-4 my-2" onClick={handleLogin}>
+              LOGIN
+            </button>
           </div>
         </div>
       </div>
