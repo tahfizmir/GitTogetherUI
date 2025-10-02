@@ -7,24 +7,27 @@ import { BASE_URL } from "../utils/constants";
 const Login = () => {
   const [emailId, setEmailId] = useState("elon@rocky.co"); // initially put for testing
   const [password, setPassword] = useState("Elon@1234");
+  const [invalidCredentials, setInvalidCredentials] = useState(false);
   const dispatch = useDispatch();
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
       const res = await axios.post(
-       BASE_URL+ "/login",
-        {
-          emailId,
-          password,
-        },
+        BASE_URL + "/login",
+        { emailId, password },
         { withCredentials: true }
-      ); // to set cookies etc
-      console.log(res);
+      );
+
       dispatch(addUser(res.data));
-      return navigate("/")
+      navigate("/feed");
+      setInvalidCredentials(false);
     } catch (err) {
-      console.log(err.message);
+      if (err.response?.status === 401) {
+        setInvalidCredentials(true);
+      } else {
+        console.error("Login failed:", err.response?.data || err.message);
+      }
     }
   };
   return (
@@ -56,6 +59,11 @@ const Login = () => {
               />
             </fieldset>
           </div>
+          {invalidCredentials && (
+            <div className="mt-3 px-3 py-2 text-sm text-red-700 bg-red-100 border border-red-300 rounded-lg">
+              Invalid email or password
+            </div>
+          )}
           <div className="justify-end card-actions">
             <button className="btn btn-primary mx-4 my-2" onClick={handleLogin}>
               LOGIN
