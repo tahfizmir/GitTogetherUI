@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <footer className="footer sm:footer-horizontal bg-neutral text-neutral-content p-10 bottom-0 fixed">
+    <footer className="footer sm:footer-horizontal bg-neutral text-neutral-content p-10 bottom-0">
       <aside>
         <p>
           GitTogether
