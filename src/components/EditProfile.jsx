@@ -11,20 +11,35 @@ const EditProfile = () => {
   const [lastName, setLastName] = useState("");
   const [photoUrl, setPhotoUrl] = useState("");
   const [about, setAbout] = useState("");
-  const [skills, setSkills] = useState([]);
-  const [error,setError]= useState();
-  const dispatch=useDispatch();
+  const [skillsInput, setSkillsInput] = useState("");
+  const [skills, setSkills] = useState();
+  const [error, setError] = useState();
 
-  const saveProfile=async ()=>{
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setSkillsInput(value);
+    setSkills(
+      value
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean)
+    );
+  };
+  const dispatch = useDispatch();
+
+  const saveProfile = async () => {
     try {
-     const res= await axios.patch(BASE_URL+"/profile/edit",{firstName,lastName,photoUrl,about,skills},{withCredentials:true});
-     console.log("res after patch ", res);
-     dispatch(addUser(res.data.data));
+      const res = await axios.patch(
+        BASE_URL + "/profile/edit",
+        { firstName, lastName, photoUrl, about, skills },
+        { withCredentials: true }
+      );
+      console.log("res after patch ", res);
+      dispatch(addUser(res.data.data));
     } catch (err) {
       setError(err.message);
     }
-
-  }
+  };
 
   useEffect(() => {
     if (!user) return;
@@ -32,10 +47,15 @@ const EditProfile = () => {
     setLastName(user.lastName || "");
     setPhotoUrl(user.photoUrl || "");
     setAbout(user.about || "");
+    
+  const savedSkills = Array.isArray(user.skills) ? user.skills : [];
+  setSkills(savedSkills);                         
+  setSkillsInput(savedSkills.join(", ")); 
+    
   }, [user]);
 
   return (
-<div className="flex justify-center ">
+    <div className="flex justify-center ">
       {user && (
         <div className="flex  justify-evenly">
           <div className="card w-96 bg-base-100 card-l shadow-sm my-15 border-1 shadow-2xl ">
@@ -87,16 +107,19 @@ const EditProfile = () => {
                   <legend className="fieldset-legend">Skills</legend>
                   <input
                     type="text"
-                    value={skills}
+                    value={skillsInput}
+                    onChange={handleChange}
                     className="input"
-                    placeholder="Type your skills separated by a comma and press save."
-                    onChange={(e) => setSkills(e.target.value.split(',').map(s => s.trim()))}
+                    placeholder="Type your skills separated by a comma and save."
                   />
                 </fieldset>
               </div>
 
               <div className="justify-end card-actions">
-                <button className="btn btn-primary mx-4 my-2" onClick={saveProfile}>
+                <button
+                  className="btn btn-primary mx-4 my-2"
+                  onClick={saveProfile}
+                >
                   Save Profile
                 </button>
               </div>
