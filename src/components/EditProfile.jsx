@@ -12,6 +12,7 @@ const EditProfile = () => {
   const [photoUrl, setPhotoUrl] = useState("");
   const [about, setAbout] = useState("");
   const [skills, setSkills] = useState([]);
+  const [error,setError]= useState();
   const dispatch=useDispatch();
 
   const saveProfile=async ()=>{
@@ -19,8 +20,8 @@ const EditProfile = () => {
      const res= await axios.patch(BASE_URL+"/profile/edit",{firstName,lastName,photoUrl,about,skills},{withCredentials:true});
      console.log("res after patch ", res);
      dispatch(addUser(res.data.data));
-    } catch (error) {
-      console.log("error saving edit :", error);
+    } catch (err) {
+      setError(err.message);
     }
 
   }
@@ -88,8 +89,8 @@ const EditProfile = () => {
                     type="text"
                     value={skills}
                     className="input"
-                    placeholder="Type your skills separated by a space."
-                    onChange={(e) => setSkills(e.target.value)}
+                    placeholder="Type your skills separated by a comma and press save."
+                    onChange={(e) => setSkills(e.target.value.split(',').map(s => s.trim()))}
                   />
                 </fieldset>
               </div>

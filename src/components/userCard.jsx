@@ -7,11 +7,11 @@ const UserCard = ({ user = {} }) => {
 
   const fullName = `${firstName} ${lastName}`.trim();
   const skillsArray = Array.isArray(savedUser?.skills) ? savedUser?.skills : [];
-  const SkillChip = ({ children }) => (
-    <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700 dark:bg-gray-700/50 dark:text-gray-200 border border-gray-200/70 dark:border-gray-600/40">
-      {children}
-    </span>
-  );
+const SkillChip = ({ children }) => (
+  <div className="px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100 rounded-full text-xs font-medium shadow-sm">
+    {children}
+  </div>
+);
 
   return (
     <div className="relative max-w-sm w-full  bg-white dark:bg-gray-800 rounded-3xl shadow-xl overflow-hidden transform transition-all hover:scale-105 ">
