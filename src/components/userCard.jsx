@@ -1,11 +1,17 @@
 import { useSelector } from "react-redux";
 
 const UserCard = ({ user = {} }) => {
-  const { firstName = "", lastName = "", about = "", photoUrl } = user;
+  const { firstName = "", lastName = "", about = "", photoUrl = "" } = user;
 
   const savedUser = useSelector((store) => store.user);
 
   const fullName = `${firstName} ${lastName}`.trim();
+  const skillsArray = Array.isArray(savedUser?.skills) ? savedUser?.skills : [];
+  const SkillChip = ({ children }) => (
+    <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700 dark:bg-gray-700/50 dark:text-gray-200 border border-gray-200/70 dark:border-gray-600/40">
+      {children}
+    </span>
+  );
 
   return (
     <div className="relative max-w-sm w-full  bg-white dark:bg-gray-800 rounded-3xl shadow-xl overflow-hidden transform transition-all hover:scale-105 ">
@@ -31,6 +37,32 @@ const UserCard = ({ user = {} }) => {
 
       <div className="p-4 text-gray-700 dark:text-gray-300">
         <p className="text-sm line-clamp-3">{about || "No bio available."}</p>
+      </div>
+      {/* Skills Section */}
+      <div className=" mb-2">
+        <div className="flex items-center justify-between">
+          <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mx-3 p-1">
+            Skills
+          </h3>
+          {skillsArray?.length > 4 ? (
+            <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
+              {skillsArray?.length} listed
+            </span>
+          ) : null}
+        </div>
+        {skillsArray?.length ? (
+          <div className="mt-2 flex flex-wrap gap-2 mx-4">
+            {skillsArray?.map((skill, idx) => (
+              <SkillChip key={`${skill}-${idx}`} className="flex-shrink-0">
+                {String(skill)}
+              </SkillChip>
+            ))}
+          </div>
+        ) : (
+          <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+            No skills added to this profile.
+          </p>
+        )}
       </div>
 
       <div className="flex justify-around pb-4">
