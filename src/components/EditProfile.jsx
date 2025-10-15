@@ -13,7 +13,7 @@ const EditProfile = () => {
   const [about, setAbout] = useState("");
   const [skillsInput, setSkillsInput] = useState("");
   const [skills, setSkills] = useState();
-  const [error, setError] = useState();
+ 
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -37,7 +37,8 @@ const EditProfile = () => {
       console.log("res after patch ", res);
       dispatch(addUser(res.data.data));
     } catch (err) {
-      setError(err.message);
+      console.log(err.message);
+      
     }
   };
 
