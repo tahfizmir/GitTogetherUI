@@ -1,23 +1,22 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { BASE_URL } from "../utils/constants";
 import {
   EllipsisVerticalIcon,
   ChatBubbleLeftIcon,
 } from "@heroicons/react/24/solid";
 import { addConnections } from "../utils/connectionsSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Connections = () => {
-  const [connections, setConnections] = useState();
+  
+  const connections=useSelector(store=>store.connections)
   const dispatch = useDispatch();
   const fetchConnections = async () => {
     try {
       const res = await axios.get(BASE_URL + "/user/connections", {
         withCredentials: true,
       });
-      console.log("connection res", res);
-      setConnections(res.data);
       dispatch(addConnections(res.data));
     } catch (err) {
       console.log(err.message);
@@ -26,7 +25,7 @@ const Connections = () => {
   useEffect(() => {
     fetchConnections();
   }, []);
-  console.log("connections 888", connections);
+  
   if (!connections) {
     return (
       <div className="flex justify-center items-center">

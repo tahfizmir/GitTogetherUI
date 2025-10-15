@@ -13,7 +13,7 @@ const Body = () => {
 
   const userData = useSelector((store) => store.user);
 
-  console.log("userData ::", userData);
+ 
 
   const fetchUser = async () => {
     if (userData) return;
