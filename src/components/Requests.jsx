@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { BASE_URL } from "../utils/constants";
 import { addRequests } from "../utils/requestSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { CheckIcon, XMarkIcon } from "@heroicons/react/24/solid";
 
 const Connections = () => {
   const requests = useSelector((store) => store.requests);
@@ -52,6 +53,18 @@ const Connections = () => {
                     </div>
                   </div>
                   <p className="list-col-wrap text-xs">{about}</p>
+                  <div
+                    className="tooltip tooltip-top"
+                    data-tip="Accept connection request"
+                  >
+                    <CheckIcon className="w-8 h-8 text-green-500" />{" "}
+                  </div>
+                  <div
+                    className="tooltip tooltip-top"
+                    data-tip="Ignore connection request"
+                  >
+                    <XMarkIcon className="w-8 h-8 text-red-500 mx-30" />{" "}
+                  </div>
                 </li>
               );
             })}
