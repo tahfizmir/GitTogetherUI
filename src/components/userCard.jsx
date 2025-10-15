@@ -44,11 +44,11 @@ const SkillChip = ({ children }) => (
           <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mx-3 p-1">
             Skills
           </h3>
-          {skillsArray?.length > 4 ? (
+          {/* {skillsArray?.length > 4 ? (
             <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
               {skillsArray?.length} listed
             </span>
-          ) : null}
+          ) : null} */}
         </div>
         {skillsArray?.length ? (
           <div className="mt-2 flex flex-wrap gap-2 mx-4">
@@ -65,8 +65,8 @@ const SkillChip = ({ children }) => (
         )}
       </div>
 
-      <div className="flex justify-around pb-4">
-        <button className="w-14 h-14 flex items-center justify-center rounded-full border border-red-400 text-red-500 text-xl hover:bg-red-50 hover:scale-110 transition">
+      <div className="flex justify-around pb-4 pt-2">
+        <button className="w-16 h-16 flex items-center justify-center rounded-full border border-red-400 text-red-500 text-xl hover:bg-red-50 hover:scale-110 transition">
           ❌
         </button>
         <button className="w-16 h-16 flex items-center justify-center rounded-full border border-green-400 text-green-500 text-2xl hover:bg-green-50 hover:scale-110 transition">

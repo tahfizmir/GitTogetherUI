@@ -17,7 +17,7 @@ const ProfileCard = () => {
   const fullName = `${firstName} ${lastName}`.trim();
 
   return (
-    <div className="max-w-sm w-full mx-auto bg-white dark:bg-gray-800 rounded-3xl shadow-xl overflow-hidden transition-transform hover:scale-[1.02]">
+    <div className="max-w-sm w-full mx-auto my-auto mb-40 bg-white dark:bg-gray-800 rounded-3xl shadow-xl transition-transform hover:scale-[1.02]">
    \
       <div className="relative h-56 bg-gray-100">
         <img
@@ -58,12 +58,12 @@ const ProfileCard = () => {
 
         <div className="mt-5 flex flex-col items-center gap-3">
           <div className="flex gap-3 justify-center">
-            <button className="px-4 py-1 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-50 transition text-sm">
+            {/* <button className="px-4 py-1 rounded-full border border-violet-300 text-white-700 hover:bg-gray-50 transition text-sm">
               Message
             </button>
             <button className="px-4 py-1 rounded-full bg-violet-600 text-white hover:bg-violet-700 transition text-sm">
               Follow
-            </button>
+            </button> */}
           </div>
 
          

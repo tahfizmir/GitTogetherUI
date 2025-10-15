@@ -13,7 +13,7 @@ const EditProfile = () => {
   const [about, setAbout] = useState("");
   const [skillsInput, setSkillsInput] = useState("");
   const [skills, setSkills] = useState();
- 
+  const [showToast, setShowToast] = useState(false);
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -36,6 +36,10 @@ const EditProfile = () => {
       );
       console.log("res after patch ", res);
       dispatch(addUser(res.data.data));
+      setShowToast(true);
+      setTimeout(()=>{
+        setShowToast(false);
+      },2000);
     } catch (err) {
       console.log(err.message);
       
@@ -48,15 +52,14 @@ const EditProfile = () => {
     setLastName(user.lastName || "");
     setPhotoUrl(user.photoUrl || "");
     setAbout(user.about || "");
-    
-  const savedSkills = Array.isArray(user.skills) ? user.skills : [];
-  setSkills(savedSkills);                         
-  setSkillsInput(savedSkills.join(", ")); 
-    
+
+    const savedSkills = Array.isArray(user.skills) ? user.skills : [];
+    setSkills(savedSkills);
+    setSkillsInput(savedSkills.join(", "));
   }, [user]);
 
   return (
-    <div className="flex justify-center ">
+    <div className="flex justify-center mb-40 8">
       {user && (
         <div className="flex  justify-evenly">
           <div className="card w-96 bg-base-100 card-l shadow-sm my-15 border-1 shadow-2xl ">
@@ -129,13 +132,18 @@ const EditProfile = () => {
         </div>
       )}
       {user && (
-        <div className="px-2 py-10">
+        <div className="px-2 py-4">
           <p className="text-center mb-2 text-sm text-gray-500  ">
             Preview of your card
           </p>
           <UserCard user={{ firstName, lastName, photoUrl, about, skills }} />
         </div>
       )}
+    {showToast && <div className="toast toast-top toast-center">
+        <div className="alert alert-success">
+          <span>Profile saved successfully.</span>
+        </div>
+      </div>}
     </div>
   );
 };

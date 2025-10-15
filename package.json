@@ -3,7 +3,6 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -11,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@reduxjs/toolkit": "^2.9.0",
     "@tailwindcss/vite": "^4.1.13",
     "axios": "^1.12.2",
@@ -19,7 +19,6 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.9.3",
     "tailwindcss": "^4.1.13"
-    
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
