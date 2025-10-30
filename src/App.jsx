@@ -8,6 +8,7 @@ import appStore from "./utils/appStore";
 import EditProfile from "./components/EditProfile";
 import Requests from "./components/Requests";
 import Connections from "./components/Connections";
+import Signup from "./components/SignUp";
 function App() {
   return (
     <>
@@ -15,12 +16,13 @@ function App() {
         <BrowserRouter basename="/">
           <Routes>
             <Route path="/" element={<Body />}>
-              <Route path="/feed" element={<Feed />} />
+              <Route path="/" element={<Feed />} />
               <Route path="/login" element={<Login />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/edit/profile" element={<EditProfile />} />
               <Route path="/connections" element={<Connections/>} />
               <Route path="/requests" element={<Requests/>} />
+              <Route path="/signup" element={<Signup/>} />
               {/* <Route path="/test" element={<Abc />} /> */}
             </Route>
           </Routes>

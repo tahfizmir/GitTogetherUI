@@ -25,13 +25,15 @@ const Feed = () => {
   useEffect(() => {
     fetchFeed();
   }, []);
-console.log("feed :",feed);
-return (
-  <div className="px-4 pb-20 flex justify-center">
-    
-{feed && <UserCard user={feed[0]} />}
-  </div>
-)
+  if (!feed) return;
+  if (feed.length <= 0) {
+    return (<p className="text-center text-green-500 mt-10">You have seen all the people in your feed.</p>)
+  }
+  return (
+    <div className="px-4 pb-20 flex justify-center">
+      {feed && <UserCard user={feed[0]} />}
+    </div>
+  );
 };
 
 export default Feed;

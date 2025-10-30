@@ -1,17 +1,40 @@
-import { useSelector } from "react-redux";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { BASE_URL } from "../utils/constants";
+import { removeCardFromFeed } from "../utils/feedSlice";
 
 const UserCard = ({ user = {} }) => {
-  const { firstName = "", lastName = "", about = "", photoUrl = "" } = user;
+  const {
+    _id,
+    firstName = "",
+    lastName = "",
+    about = "",
+    photoUrl = "",
+  } = user;
 
   const savedUser = useSelector((store) => store.user);
-
+  const dispatch = useDispatch();
   const fullName = `${firstName} ${lastName}`.trim();
   const skillsArray = Array.isArray(savedUser?.skills) ? savedUser?.skills : [];
-const SkillChip = ({ children }) => (
-  <div className="px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100 rounded-full text-xs font-medium shadow-sm">
-    {children}
-  </div>
-);
+  const SkillChip = ({ children }) => (
+    <div className="px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100 rounded-full text-xs font-medium shadow-sm">
+      {children}
+    </div>
+  );
+
+  const handleUserSwipe = async (status, _id) => {
+    try {
+      await axios.post(
+        BASE_URL + "/request/send/" + status + "/" + _id,
+        {},
+        { withCredentials: true }
+      );
+      dispatch(removeCardFromFeed(_id));
+    } catch (err) {
+
+      console.log(err.message);
+    }
+  };
 
   return (
     <div className="relative max-w-sm w-full  bg-white dark:bg-gray-800 rounded-3xl shadow-xl overflow-hidden transform transition-all hover:scale-105 ">
@@ -44,11 +67,6 @@ const SkillChip = ({ children }) => (
           <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mx-3 p-1">
             Skills
           </h3>
-          {/* {skillsArray?.length > 4 ? (
-            <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
-              {skillsArray?.length} listed
-            </span>
-          ) : null} */}
         </div>
         {skillsArray?.length ? (
           <div className="mt-2 flex flex-wrap gap-2 mx-4">
@@ -66,10 +84,16 @@ const SkillChip = ({ children }) => (
       </div>
 
       <div className="flex justify-around pb-4 pt-2">
-        <button className="w-16 h-16 flex items-center justify-center rounded-full border border-red-400 text-red-500 text-xl hover:bg-red-50 hover:scale-110 transition">
+        <button
+          className="w-16 h-16 flex items-center justify-center rounded-full border border-red-400 text-red-500 text-xl hover:bg-red-50 hover:scale-110 transition"
+          onClick={() => handleUserSwipe("ignored", _id)}
+        >
           ❌
         </button>
-        <button className="w-16 h-16 flex items-center justify-center rounded-full border border-green-400 text-green-500 text-2xl hover:bg-green-50 hover:scale-110 transition">
+        <button
+          className="w-16 h-16 flex items-center justify-center rounded-full border border-green-400 text-green-500 text-2xl hover:bg-green-50 hover:scale-110 transition"
+          onClick={() => handleUserSwipe("interested", _id)}
+        >
           ❤️
         </button>
       </div>

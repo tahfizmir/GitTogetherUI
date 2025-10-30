@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 const Login = () => {
   const [emailId, setEmailId] = useState("elon@rocky.co"); // initially put for testing
@@ -20,7 +20,7 @@ const Login = () => {
       );
 
       dispatch(addUser(res.data));
-      navigate("/feed");
+      navigate("/");
       setInvalidCredentials(false);
     } catch (err) {
       if (err.response?.status === 401) {
@@ -69,6 +69,7 @@ const Login = () => {
               LOGIN
             </button>
           </div>
+          <p className="mx-auto">  Not a user?<Link className="text-red-300 hover:underline" to="/signup"> Sign Up here! </Link></p>
         </div>
       </div>
     </div>

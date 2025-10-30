@@ -1,19 +1,38 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BASE_URL } from "../utils/constants";
-import { addRequests } from "../utils/requestSlice";
+import { addRequests, removeRequest } from "../utils/requestSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { CheckIcon, XMarkIcon } from "@heroicons/react/24/solid";
 
 const Connections = () => {
+  const [showToast, setShowToast] = useState(false);
   const requests = useSelector((store) => store.requests);
   const dispatch = useDispatch();
+
   const fetchRequests = async () => {
     try {
       const res = await axios.get(BASE_URL + "/user/requests/recieved", {
         withCredentials: true,
       });
       dispatch(addRequests(res.data.data));
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  const handleReviewRequests = async (status, _id) => {
+    try {
+      await axios.post(
+        BASE_URL + "/request/review/" + status + "/" + _id,
+        {},
+        { withCredentials: true }
+      );
+      dispatch(removeRequest(_id));
+      setShowToast(true);
+      setTimeout(() => {
+        setShowToast(false);
+      }, 1000);
     } catch (err) {
       console.log(err.message);
     }
@@ -56,19 +75,32 @@ const Connections = () => {
                   <div
                     className="tooltip tooltip-top"
                     data-tip="Accept connection request"
+                    onClick={() => {
+                      return handleReviewRequests("accepted", request._id);
+                    }}
                   >
-                    <CheckIcon className="w-8 h-8 text-green-500" />{" "}
+                    <CheckIcon className="w-8 h-8 text-green-500" />
                   </div>
                   <div
                     className="tooltip tooltip-top"
                     data-tip="Ignore connection request"
+                    onClick={() => {
+                      return handleReviewRequests("rejected", request._id);
+                    }}
                   >
-                    <XMarkIcon className="w-8 h-8 text-red-500 mx-30" />{" "}
+                    <XMarkIcon className="w-8 h-8 text-red-500 mx-30" />
                   </div>
                 </li>
               );
             })}
           </ul>
+          {showToast && (
+            <div className="toast toast-top toast-center">
+              <div className="alert alert-success">
+                <span>Responded</span>
+              </div>
+            </div>
+          )}
         </>
       );
     }
