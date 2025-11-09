@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 const Signup = () => {
   const [emailId, setEmailId] = useState(""); // initially put for testing
@@ -9,26 +9,25 @@ const Signup = () => {
   const [lastName, setLastName] = useState("test");
   const [age, setAge] = useState(20);
   const [gender, setGender] = useState("other");
-  const [showToast,setShowToast]=useState(false);
-  const [showError,setShowError]=useState(false);
-  const [errorMessage,setErrorMessage]=useState("");
+  const [showToast, setShowToast] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const handleSignUp = async () => {
     try {
       const res = await axios.post(
         BASE_URL + "/signup",
-        { emailId, password , firstName,lastName, age, gender},
+        { emailId, password, firstName, lastName, age, gender },
         { withCredentials: true }
       );
 
       console.log("res signup : ", res);
       setShowToast(true);
-      setTimeout(()=>{
+      setTimeout(() => {
         setShowToast(false);
-          navigate("/login");
-      },1000);
-    
+        navigate("/login");
+      }, 1000);
     } catch (err) {
       const msg =
         err?.response?.data?.message ||
@@ -112,26 +111,34 @@ const Signup = () => {
               />
             </fieldset>
           </div>
-                {showError && (
+          {showError && (
             <div className="mt-3 px-3 py-2 text-sm text-red-700 bg-red-100 border border-red-300 rounded-lg">
               {errorMessage}
             </div>
           )}
-          <div className="justify-end card-actions">
-            <button
-              className="btn btn-primary mx-4 my-2"
-              onClick={handleSignUp}
-            >
-              Sign Up
-            </button>
-          </div>
+
+          <div className="card-actions flex justify-between items-center mt-4">
+  <Link className="text-green-500 hover:underline" to="/login">
+    Go to login page!
+  </Link>
+
+  <button
+    className="btn btn-primary mx-2 my-2"
+    onClick={handleSignUp}
+  >
+    Sign Up
+  </button>
+</div>
+
         </div>
       </div>
-      {showToast && <div className="toast toast-top toast-center">
-        <div className="alert alert-success">
-          <span>Signed up successfully.</span>
+      {showToast && (
+        <div className="toast toast-top toast-center">
+          <div className="alert alert-success">
+            <span>Signed up successfully.</span>
+          </div>
         </div>
-      </div>}
+      )}
     </div>
   );
 };

@@ -7,7 +7,8 @@ import { BASE_URL } from "../utils/constants";
 const Login = () => {
   const [emailId, setEmailId] = useState(""); // initially put for testing
   const [password, setPassword] = useState("");
-  const [invalidCredentials, setInvalidCredentials] = useState(false);
+  const [showError,setShowError]=useState(false);
+  const [errorMessage,setErrorMessage]=useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -21,13 +22,15 @@ const Login = () => {
 
       dispatch(addUser(res.data));
       navigate("/");
-      setInvalidCredentials(false);
     } catch (err) {
-      if (err.response?.status === 401) {
-        setInvalidCredentials(true);
-      } else {
-        console.error("Login failed:", err.response?.data || err.message);
-      }
+      const msg =
+        err?.response?.data?.message ||
+        err?.response?.data?.error ||
+        err?.response?.data ||
+        err.message ||
+        "Login failed";
+      setErrorMessage(typeof msg === "string" ? msg : JSON.stringify(msg));
+      setShowError(true);
     }
   };
   return (
@@ -59,9 +62,9 @@ const Login = () => {
               />
             </fieldset>
           </div>
-          {invalidCredentials && (
+             {showError && (
             <div className="mt-3 px-3 py-2 text-sm text-red-700 bg-red-100 border border-red-300 rounded-lg">
-              Invalid email or password
+              {errorMessage}
             </div>
           )}
           <div className="justify-end card-actions">
