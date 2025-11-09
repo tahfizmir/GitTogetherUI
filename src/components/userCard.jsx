@@ -40,10 +40,10 @@ const UserCard = ({ user = {} }) => {
     <div className="relative max-w-sm w-full  bg-white dark:bg-gray-800 rounded-3xl shadow-xl overflow-hidden transform transition-all hover:scale-105 ">
       <div className="relative h-96 w-full bg-gray-100">
         <img
-          src={photoUrl || "/placeholder-profile.png"}
+          src={photoUrl }
           alt={fullName || "User photo"}
           className="w-full h-full object-cover"
-          onError={(e) => (e.currentTarget.src = "/placeholder-profile.png")}
+         
         />
 
         <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black/70 to-transparent"></div>

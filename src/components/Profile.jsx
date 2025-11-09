@@ -7,7 +7,7 @@ const ProfileCard = () => {
     const {
     firstName = "",
     lastName = "",
-    photoUrl = "/placeholder-profile.png",
+    photoUrl = "",
     about = "",
     age,
     gender,
@@ -21,10 +21,9 @@ const ProfileCard = () => {
    \
       <div className="relative h-56 bg-gray-100">
         <img
-          src={photoUrl || "/placeholder-profile.png"}
+          src={photoUrl }
           alt={fullName || "User"}
           className="w-full h-full object-cover"
-          onError={(e) => (e.currentTarget.src = "/placeholder-profile.png")}
         />
       </div>
 
