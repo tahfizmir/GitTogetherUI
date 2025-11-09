@@ -3,11 +3,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 const Signup = () => {
-  const [emailId, setEmailId] = useState("elon@rocky.co"); // initially put for testing
-  const [password, setPassword] = useState("Elon@1234");
+  const [emailId, setEmailId] = useState(""); // initially put for testing
+  const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("test");
-  const [lastName, setLastName] = useState("etest");
-  const [age, setAge] = useState(19);
+  const [lastName, setLastName] = useState("test");
+  const [age, setAge] = useState(20);
   const [gender, setGender] = useState("other");
   const [showToast,setShowToast]=useState(false);
   const navigate = useNavigate();
